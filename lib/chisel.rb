@@ -8,13 +8,26 @@ attr_reader :input
   end
 
   def formatting
-    input.map do |chunk|
-      if chunk.include? "#"
-        heading(chunk)
-      else
-        paragraph(chunk)
-      end
+    @input = input.map do |chunk|
+      chunk = body_formatting(chunk)
+      emphasis_formatting(chunk)
     end.join
+  end
+
+  def body_formatting(chunk)
+    if chunk.include? "#"
+      heading(chunk)
+    else
+      paragraph(chunk)
+    end
+  end
+
+  def emphasis_formatting(chunk)
+    if chunk.include? "*"
+      emphasis(chunk)
+    else
+      chunk
+    end
   end
 
   def heading(chunk)
@@ -26,4 +39,14 @@ attr_reader :input
   def paragraph(chunk)
     "<p> " + chunk + " </p>"
   end
+
+  # def emphasis(chunk)
+  #   chunk = chunk.split
+  #   chunk.map do |item|
+  #     if chunk.include?("*")
+  #
+  #
+  #   chunk = chunk.sub("*", "<em>")
+  # end
+
 end

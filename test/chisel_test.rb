@@ -26,6 +26,12 @@ class ChiselTest <Minitest::Test
   def test_chisel_can_reformat_input_without_heading
     chisel = Chisel.new("Paragraph")
     assert_equal "<p> Paragraph </p>", chisel.formatting
+    assert_equal "<p> Paragraph </p>", chisel.input
   end
+
+  # def test_chisel_can_reformat_asterisk_to_emphasis
+  #   chisel = Chisel.new("paragraph *with* emphasis")
+  #   assert_equal "<p> paragraph <em> with </em> emphasis </p>", chisel.formatting
+  # end
 
 end
