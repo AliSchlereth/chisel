@@ -8,14 +8,24 @@ class ChiselTest <Minitest::Test
 
   def test_chisel_can_recognize_a_chunk_of_text
     chisel = Chisel.new("This is a single chunk of text.")
-    assert_equal "This is a single chunk of text.", chisel.input
+    assert_equal ["This is a single chunk of text."], chisel.input
   end
 
   def test_chisel_can_separate_input_into_chunks
     chisel = Chisel.new("This is the first chunk of text.\n
     This is a second chunk of text.")
 
-    assert_equal "This is a first chunk of text.", chisel.
+    assert_equal "This is the first chunk of text.", chisel.input.first
+  end
+
+  def test_chisel_can_reformat_input_with_heading
+    chisel = Chisel.new("# Heading")
+    assert_equal "<h1> Heading </h1>", chisel.formatting
+  end
+
+  def test_chisel_can_reformat_input_without_heading
+    chisel = Chisel.new("Paragraph")
+    assert_equal "<p> Paragraph </p>", chisel.formatting
   end
 
 end
