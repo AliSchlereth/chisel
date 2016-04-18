@@ -29,9 +29,14 @@ class ChiselTest <Minitest::Test
     assert_equal "<p> Paragraph </p>", chisel.input
   end
 
-  # def test_chisel_can_reformat_asterisk_to_emphasis
-  #   chisel = Chisel.new("paragraph *with* emphasis")
-  #   assert_equal "<p> paragraph <em> with </em> emphasis </p>", chisel.formatting
-  # end
+  def test_chisel_can_reformat_asterisk_to_emphasis
+    chisel = Chisel.new("paragraph *with* emphasis")
+    assert_equal "<p> paragraph <em> with </em> emphasis </p>", chisel.formatting
+  end
+
+  def test_chisel_can_reformat_double_asterisk_to_strong
+    chisel = Chisel.new("paragraph **with** strong")
+    assert_equal "<p> paragraph <strong> with </strong> strong </p>", chisel.formatting
+  end
 
 end

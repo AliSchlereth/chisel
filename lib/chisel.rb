@@ -10,8 +10,9 @@ attr_reader :input
   def formatting
     @input = input.map do |chunk|
       chunk = body_formatting(chunk)
-      emphasis_formatting(chunk)
-    end.join
+      chunk = emphasis_formatting(chunk)
+      chunk = strong_formatting(chunk)
+    end.join(" ")
   end
 
   def body_formatting(chunk)
@@ -23,8 +24,17 @@ attr_reader :input
   end
 
   def emphasis_formatting(chunk)
-    if chunk.include? "*"
+    if chunk.include?("*")
       emphasis(chunk)
+    else
+      chunk
+    end
+  end
+
+  def strong_formatting(chunk)
+    if chunk.include? "**"
+      strong(chunk)
+      # binding.pry
     else
       chunk
     end
@@ -40,13 +50,30 @@ attr_reader :input
     "<p> " + chunk + " </p>"
   end
 
-  # def emphasis(chunk)
-  #   chunk = chunk.split
-  #   chunk.map do |item|
-  #     if chunk.include?("*")
-  #
-  #
-  #   chunk = chunk.sub("*", "<em>")
-  # end
+  def emphasis(chunk)
+    chunk = chunk.split
+    chunk.map do |item|
+      if item.count("*") == 2
+        item.delete!("*")
+        item.insert(0,"<em> ")
+        item.insert(-1," </em>")
+      else
+        item
+      end
+    end.join(" ")
+  end
+
+  def strong(chunk)
+    chunk = chunk.split
+    chunk.map do |item|
+      if item.count("*") == 4
+        item.delete!("**")
+        item.insert(0,"<strong> ")
+        item.insert(-1," </strong>")
+      else
+        item
+      end
+    end.join(" ")
+  end
 
 end
