@@ -53,10 +53,15 @@ attr_reader :input
   def emphasis(chunk)
     chunk = chunk.split
     chunk.map do |item|
-      if item.count("*") == 2
-        item.delete!("*")
-        item.insert(0,"<em> ")
-        item.insert(-1," </em>")
+      if item.start_with?("*")
+        item.sub!("*", "<em> ")
+        # item.insert(0,"<em> ")
+        if item.end_with?("*")
+          item.delete!("*")
+          item.insert(-1," </em>")
+        else
+          item
+        end
       else
         item
       end
