@@ -10,8 +10,8 @@ attr_reader :input
   def formatting
     @input = input.map do |chunk|
       chunk = body_formatting(chunk)
-      chunk = emphasis_formatting(chunk)
       chunk = strong_formatting(chunk)
+      chunk = emphasis_formatting(chunk)
     end.join(" ")
   end
 
@@ -56,12 +56,12 @@ attr_reader :input
       if item.start_with?("*")
         item.sub!("*", "<em> ")
         # item.insert(0,"<em> ")
-        if item.end_with?("*")
-          item.delete!("*")
-          item.insert(-1," </em>")
-        else
-          item
-        end
+      else
+        item
+      end
+      if item.end_with?("*")
+        item.delete!("*")
+        item.insert(-1," </em>")
       else
         item
       end
@@ -71,10 +71,15 @@ attr_reader :input
   def strong(chunk)
     chunk = chunk.split
     chunk.map do |item|
-      if item.count("*") == 4
+      if item.start_with?("**")
+        item.sub!("**", "<strong> ")
+        # item.insert(0,"<strong> ")
+      else
+        item
+      end
+      if item.end_with?("**")
         item.delete!("**")
-        item.insert(0,"<strong> ")
-        item.insert(-1," </strong>")
+      item.insert(-1," </strong>")
       else
         item
       end

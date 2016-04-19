@@ -44,13 +44,24 @@ class ChiselTest <Minitest::Test
     assert_equal "<p> paragraph <strong> with </strong> strong <strong> and </strong> strong </p>", chisel.formatting
   end
 
-  # def test_chisel_can_reformat_two_separate_emphasized_words
-  #   chisel = Chisel.new("paragraph *with* emphasis *and* emphasis")
-  #   assert_equal "<p> paragraph <em> with </em> emphasis <em> and </em> emphasis </p>", chisel.formatting
-  # end
+  def test_chisel_can_reformat_two_separate_emphasized_words
+    chisel = Chisel.new("paragraph *with* emphasis *and* emphasis")
+    assert_equal "<p> paragraph <em> with </em> emphasis <em> and </em> emphasis </p>", chisel.formatting
+  end
 
-  def test_chisel_can_reformat_phrases_using_both_emphasize_and_strong
+  def test_chisel_can_reformat_phrases_using_emphasize
+    chisel = Chisel.new("paragraph *with a phrase* emphasized")
+    assert_equal "<p> paragraph <em> with a phrase </em> emphasized </p>", chisel.formatting
+  end
 
+  def test_chisel_can_reformat_phrase_using_strong
+    chisel = Chisel.new("paragraph **with a phrase** stronged")
+    assert_equal "<p> paragraph <strong> with a phrase </strong> stronged </p>", chisel.formatting
+  end
+
+  def test_chisel_can_reformat_a_phrase_using_emphasis_and_strong
+    chisel = Chisel.new("paragraph *with a **strong** phrase* emphasized")
+    assert_equal "<p> paragraph <em> with a <strong> strong </strong> phrase </em> emphasized </p>", chisel.formatting
   end
 
 end
