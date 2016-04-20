@@ -64,4 +64,9 @@ class ChiselTest <Minitest::Test
     assert_equal "<p> paragraph <em> with a <strong> strong </strong> phrase </em> emphasized </p>", chisel.formatting
   end
 
+  def test_chisel_does_not_reformat_a_word_with_asterisk_mid_word
+    chisel = Chisel.new("paragraph wi*th mis placed asterisk")
+    assert_equal "<p> paragraph wi*th mis placed asterisk </p>", chisel.formatting
+  end
+
 end
