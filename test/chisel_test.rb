@@ -79,9 +79,14 @@ class ChiselTest <Minitest::Test
   #   assert_equal "<p> paragraph with mis**placed strong </p>", chisel.formatting
   # end
 
-  def test_chisel_does_not_reformat_last_asterisk_if_odd_count
-    chisel = Chisel.new("paragraph *with* one full and one *half emphasis")
-    assert_equal "<p> paragraph <em> with </em> one full and one *half emphasis </p>", chisel.formatting
-  end
+  def test_chisel_does_not_reformat_asterisks_without_full_set_strong
+    chisel = Chisel.new("paragraph **with** one full and one **half strong")
+    assert_equal "<p> paragraph <strong> with </strong> one full and one **half strong", chisel.formatting
+  end 
+
+  # def test_chisel_does_not_reformat_last_asterisk_if_odd_count
+  #   chisel = Chisel.new("paragraph *with* one full and one *half emphasis")
+  #   assert_equal "<p> paragraph <em> with </em> one full and one *half emphasis </p>", chisel.formatting
+  # end
 
 end
