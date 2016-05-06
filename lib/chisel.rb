@@ -52,16 +52,21 @@ attr_reader :input
   end
 
   def emphasis(chunk)
+    remainder = chunk.count("*") % 2
+    count = chunk.count("*")
+    counter = 0 
     if chunk.count("*") >= 2
       chunk = chunk.split
       chunk.map do |item|
-        if item.start_with?("*")
+        if item.start_with?("*") && counter < count - remainder
+          counter += 1
           item.sub!("*", "<em> ")
           # item.insert(0,"<em> ")
         else
           item
         end
-        if item.end_with?("*")
+        if item.end_with?("*") && counter < count - remainder
+          counter += 1
           item.delete!("*")
           item.insert(-1," </em>")
         else
@@ -76,18 +81,18 @@ attr_reader :input
   def strong(chunk)
     remainder = chunk.count("*") % 4
     count = chunk.count("**")
-    @counter = 0
+    counter = 0
     if count >= 4
       chunk = chunk.split
       chunk.map do |item|
-        if item.start_with?("**") && @counter <= count - remainder
-          @counter += 2
+        if item.start_with?("**") && counter < count - remainder
+          counter += 2
           item.sub!("**", "<strong> ")
         else
           item
         end
-        if item.end_with?("**") && @counter <= count - remainder
-          @counter += 2
+        if item.end_with?("**") && counter < count - remainder
+          counter += 2
           item.delete!("**")
         item.insert(-1," </strong>")
         else
