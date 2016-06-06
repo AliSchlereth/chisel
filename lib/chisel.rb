@@ -43,6 +43,15 @@ attr_reader :input
   def list_formatting(chunk)
     if chunk.include? "* "
       unordered_list(chunk)
+    elsif
+      # if chunk contains an integer followed by a period
+      # it passes through to ordered_list
+      # are any of the characters an integer? 
+      chunk = chunk.split
+      chunk.any? do |item|
+        item.is_a? Integer
+        ordered_list(chunk)
+      end
     else
       chunk
     end
@@ -155,23 +164,38 @@ attr_reader :input
     paragraph = paragraph.join(" ")
     chunk.pop
     chunk.unshift("<ul>")
-    #  iterate over chunk to replace any * with <li>
     chunk.map do |item|
       if item == "*"
         item.gsub!("*", "<li>")
-
       else
         item
       end
     end
     chunk.insert(-1, "</li>")
     chunk.insert(-1, "</ul>")
-    # Change unshift so that * is replaced by <ul> etc
-    # chunk.push("</li> </ul>")
     chunk.unshift(paragraph)
-    # chunk.flatten
   end
 
+  def ordered_list(chunk)
+    # chunk = chunk.split
+    index = chunk.index(1..9)
+    binding.pry
+    paragraph = chunk.shift(index)
+    paragraph.push("</p>")
+    paragraph = paragraph.join(" ")
+    chunk.pop
+    chunk.unshift("<ul>")
+    chunk.map do |item|
+      if item == "*"
+        item.gsub!("*", "<li>")
+      else
+        item
+      end
+    end
+    chunk.insert(-1, "</li>")
+    chunk.insert(-1, "</ul>")
+    chunk.unshift(paragraph)
+  end
 
 
 end

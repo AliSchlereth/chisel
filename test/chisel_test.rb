@@ -89,4 +89,9 @@ class ChiselTest <Minitest::Test
     assert_equal "<p> para starts list </p> <ul> <li> first list item </li> </ul>", chisel.formatting
   end
 
+  def test_chisel_reformats_number_followed_by_a_period_to_an_ordered_list
+    chisel = Chisel.new("para starts list 1. first list item")
+    assert_equal "<p> para starts list </p> <ol> <li> first list item </li> </ol>", chisel.formatting
+  end
+
 end
