@@ -84,4 +84,9 @@ class ChiselTest <Minitest::Test
     assert_equal "<p> paragraph <strong> with </strong> one full and one **half strong </p>", chisel.formatting
   end
 
+  def test_chisel_reformats_asterisk_with_a_space_to_unordered_list
+    chisel = Chisel.new("para starts list * first list item")
+    assert_equal "<p> para starts list </p> <ul> <li> first list item </li> </ul>", chisel.formatting
+  end
+
 end

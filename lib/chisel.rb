@@ -12,6 +12,7 @@ attr_reader :input
       chunk = body_formatting(chunk)
       chunk = strong_formatting(chunk)
       chunk = emphasis_formatting(chunk)
+      chunk = list_formatting(chunk)
     end.join(" ")
   end
 
@@ -34,7 +35,14 @@ attr_reader :input
   def strong_formatting(chunk)
     if chunk.include? "**"
       strong(chunk)
-      # binding.pry
+    else
+      chunk
+    end
+  end
+
+  def list_formatting(chunk)
+    if chunk.include? "* "
+      unordered_list(chunk)
     else
       chunk
     end
@@ -137,6 +145,31 @@ attr_reader :input
     else
       item
     end
+  end
+
+  def unordered_list(chunk)
+    chunk = chunk.split
+    index = chunk.index("*")
+    paragraph = chunk.shift(index)
+    paragraph.push("</p>")
+    paragraph = paragraph.join(" ")
+    chunk.pop
+    chunk.unshift("<ul>")
+    #  iterate over chunk to replace any * with <li>
+    chunk.map do |item|
+      if item == "*"
+        item.gsub!("*", "<li>")
+
+      else
+        item
+      end
+    end
+    chunk.insert(-1, "</li>")
+    chunk.insert(-1, "</ul>")
+    # Change unshift so that * is replaced by <ul> etc
+    # chunk.push("</li> </ul>")
+    chunk.unshift(paragraph)
+    # chunk.flatten
   end
 
 
