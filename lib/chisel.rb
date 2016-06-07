@@ -25,7 +25,7 @@ attr_reader :input
   end
 
   def emphasis_formatting(chunk)
-    if chunk.include?("*")
+    if chunk.include?("*") && chunk[ (chunk.index("*") + 1) ] != " "
       emphasis(chunk)
     else
       chunk
@@ -48,6 +48,11 @@ attr_reader :input
       # if chunk contains an integer followed by a period
       # it passes through to ordered_list
       # are any of the characters an integer
+
+      # (0..9).to_a.any? do |num|
+      # chunk.include?(num.to_s)
+      # binding.pry
+      # end
 
       ordered_list(chunk)
     else
