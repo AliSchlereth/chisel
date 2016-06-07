@@ -94,4 +94,14 @@ class ChiselTest <Minitest::Test
     assert_equal "<p> para starts list </p> <ol> <li> first list item </li> </ol>", chisel.formatting
   end
 
+  def test_chisel_reformats_multiple_number_1s_to_an_ordered_list
+    chisel = Chisel.new("para starts list 1. first list item \n 1. second list item")
+    assert_equal "<p> para starts list </p> <ol> <li> first list item </li> <li> second list item </li> </ol>", chisel.formatting
+  end
+
+  # def test_chisel_reformats_multiple_asterisk_in_isolation_to_an_unordered_list
+  #   chisel = Chisel.new("para starts list * first list item \n * second list item")
+  #   assert_equal "<p> para starts list </p> <ul> <li> first list item </li> <li> second list item </li> </ul>", chisel.formatting
+  # end
+
 end
