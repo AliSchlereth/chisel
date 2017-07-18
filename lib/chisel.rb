@@ -12,10 +12,14 @@ attr_reader :input
     @input = input.map do |chunk|
       # chunk = body_formatting(chunk)
       chunk = Format.body(chunk)
-      chunk = Format.strong(chunk)
+      chunk = Format.new.strong_formatter.strong(chunk)
       chunk = Format.emphasis(chunk)
       chunk = list_formatting(chunk)
     end.join(" ")
+  end
+
+  def print_output
+    print @input
   end
 
   # def body_formatting(chunk)
