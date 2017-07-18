@@ -14,12 +14,12 @@ attr_reader :input
       chunk = Format.body(chunk)
       chunk = Format.strong(chunk)
       chunk = Format.emphasis(chunk)
-      chunk = list_formatting(chunk)
+      list_formatting(chunk)
     end.join(" ")
   end
 
   def print_output
-    print @input
+    p @input
   end
 
   def list_formatting(chunk)

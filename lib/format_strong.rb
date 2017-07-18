@@ -1,6 +1,6 @@
 class FormatStrong
 
-  def strong(chunk)
+  def self.strong(chunk)
     if chunk.include? "**"
       translate_strong(chunk)
     else
@@ -8,7 +8,7 @@ class FormatStrong
     end
   end
 
-  def translate_strong(chunk)
+  def self.translate_strong(chunk)
     strong_remainder(chunk)
     strong_count(chunk)
     @counter = 0
@@ -23,15 +23,15 @@ class FormatStrong
     end
   end
 
-  def strong_remainder(chunk)
+  def self.strong_remainder(chunk)
     @strong_remainder = chunk.count("*") % 4
   end
 
-  def strong_count(chunk)
+  def self.strong_count(chunk)
     @strong_count = chunk.count("**")
   end
 
-  def strong_start(item)
+  def self.strong_start(item)
     if item.start_with?("**") && @counter < @strong_count - @strong_remainder
       @counter += 2
       item.sub!("**", "<strong> ")
@@ -40,7 +40,7 @@ class FormatStrong
     end
   end
 
-  def strong_end(item)
+  def self.strong_end(item)
     if item.end_with?("**") && @counter < @strong_count - @strong_remainder
       @counter += 2
       item.delete!("**")

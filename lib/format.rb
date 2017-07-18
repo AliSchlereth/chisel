@@ -23,7 +23,7 @@ class Format
   end
 
   def self.strong(chunk)
-    FormatStrong.new.strong(chunk)
+    FormatStrong.strong(chunk)
   end
 
   def self.emphasis(chunk)
