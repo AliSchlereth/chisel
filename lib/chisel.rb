@@ -2,6 +2,9 @@ require 'pry'
 require './lib/format'
 
 class Chisel
+
+include Format
+
 attr_reader :input
 
   def initialize(input_text)
@@ -10,19 +13,11 @@ attr_reader :input
 
   def formatting
     @input = input.map do |chunk|
-      chunk = body_formatting(chunk)
-      chunk = Format.new.strong(chunk)
-      chunk = Format.new.emphasis(chunk)
+      chunk = Format.body(chunk)
+      chunk = Format.strong(chunk)
+      chunk = Format.emphasis(chunk)
       chunk = list_formatting(chunk)
     end.join(" ")
-  end
-
-  def body_formatting(chunk)
-    if chunk.include? "# "
-      heading(chunk)
-    else
-      paragraph(chunk)
-    end
   end
 
   def list_formatting(chunk)
@@ -43,17 +38,6 @@ attr_reader :input
     else
       chunk
     end
-  end
-
-  def heading(chunk)
-    header_size = chunk.count("#").to_s
-    chunk = chunk.squeeze("#")
-    chunk = chunk.gsub("#", "<h" + header_size + ">")
-    chunk + " </h" + header_size + ">"
-  end
-
-  def paragraph(chunk)
-    "<p> " + chunk + " </p>"
   end
 
   def unordered_list(chunk)
